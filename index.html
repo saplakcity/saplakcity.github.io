@@ -1,309 +1,336 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html lang="tr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Şaplak City</title>
-<style>
-  :root{
-    --bg1: linear-gradient(135deg,#0f172a,#001219);
-    --accent: #ffde59;
-    --card: rgba(255,255,255,0.06);
-    --glass: rgba(255,255,255,0.06);
-  }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Şaplak City — Mini Site</title>
+  <style>
+    :root{
+      --bg:#0b1220; --card:#0f1724; --accent:#ff6b35; --muted:#9aa7b2; --pitch:#0b6b2f;
+      --glass: rgba(255,255,255,0.04);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#041022 0%, #071229 60%);color:#e6eef6;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+    .app{width:100%;max-width:1100px}header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,#ff8a5b,#ff6b35);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:20px;box-shadow:0 6px 20px rgba(255,107,53,0.18)}
+h1{font-size:20px;margin:0}
+p.lead{margin:0;color:var(--muted);font-size:13px}
 
-  html,body{height:100%;margin:0;font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial; -webkit-font-smoothing:antialiased;}
-  body{
-    background: var(--bg1);
-    color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-  }
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:18px;box-shadow:0 10px 30px rgba(2,6,23,0.6);}
 
-  .container{
-    width:min(920px,94%);
-    background: radial-gradient(circle at 10% 10%, rgba(255,255,255,0.03), transparent 20%),
-                linear-gradient(180deg, rgba(255,255,255,0.02), transparent 40%);
-    border-radius:18px;
-    padding:36px;
-    box-shadow: 0 10px 40px rgba(2,6,23,0.6);
-    text-align:center;
-    position:relative;
-    min-height:380px;
-  }
+/* Quiz */
+.quiz{display:grid;grid-template-columns:1fr 360px;gap:20px}
+.question{padding:20px;border-radius:12px;background:var(--card)}
+.q-title{font-size:18px;margin:0 0 8px}
+.q-text{color:var(--muted);margin-bottom:18px}
+.choices{display:flex;flex-direction:column;gap:12px}
+.choice{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;display:flex;align-items:center;gap:12px;transition:transform .12s ease, box-shadow .12s}
+.choice:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(2,6,23,0.6)}
+.choice .dot{width:12px;height:12px;border-radius:50%;background:var(--accent);flex:0 0 12px}
 
-  h1{
-    font-size:32px;
-    margin:0 0 22px 0;
-    letter-spacing:0.6px;
-    text-shadow: 0 6px 30px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.02) inset;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:12px;
-  }
+/* Right column */
+.side{padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))}
+.side h3{margin:0 0 8px}
+.side p{color:var(--muted);font-size:13px}
 
-  .question-card{
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-    border-radius:14px;
-    padding:24px;
-    margin-bottom:20px;
-    box-shadow: 0 6px 18px rgba(2,6,23,0.5);
-  }
+/* Result */
+.result{margin-top:12px;font-size:20px;font-weight:700;color:#00d27a}
 
-  .btn-row{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:8px;}
-  button.choice{
-    background: linear-gradient(180deg,#ff7a00,#ff4d00);
-    border: none;
-    padding:14px 28px;
-    font-size:20px;
-    border-radius:12px;
-    cursor:pointer;
-    color:#111;
-    font-weight:700;
-    transform:translateY(0);
-    transition:transform .14s ease, box-shadow .14s ease;
-    box-shadow: 0 12px 30px rgba(255,77,0,0.18), 0 2px 8px rgba(0,0,0,0.35);
-  }
-  button.choice:active{ transform:translateY(2px); }
-  button.choice.secondary{
-    background: linear-gradient(180deg,#6a5cff,#3b2df7);
-    color: #fff;
-    box-shadow: 0 12px 30px rgba(59,45,247,0.16), 0 2px 8px rgba(0,0,0,0.35);
-  }
+/* Confetti */
+.emoji{position:fixed;font-size:28px;pointer-events:none;z-index:9999;animation:fall 2.6s linear forwards}
+@keyframes fall{from{transform:translateY(-10vh) rotate(0deg);opacity:1}to{transform:translateY(110vh) rotate(480deg);opacity:0}}
 
-  /* Celebration screen */
-  .celebrate{
-    position:absolute;
-    inset:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    gap:18px;
-    background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.02));
-    backdrop-filter: blur(6px);
-    border-radius:18px;
-    z-index:30;
-  }
-  .big-text{
-    font-size:56px;
-    font-weight:900;
-    letter-spacing:1px;
-    color: #0b2a1a;
-    text-shadow: 0 6px 30px rgba(0,0,0,0.45);
-    padding:18px 30px;
-    border-radius:14px;
-    background: linear-gradient(90deg, #eaffd0, #fff2aa);
-    box-shadow: 0 14px 50px rgba(0,0,0,0.45);
-  }
-  .emoji-strip{font-size:30px;opacity:0.98;transform:translateY(0);}
+/* Main menu / pitch */
+.main-menu{margin-top:20px}
+.controls{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+.btn{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
+.btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06)}
 
-  /* confetti pieces */
-  .confetti {
-    position:absolute;
-    width:14px;height:14px;
-    font-size:14px;
-    pointer-events:none;
-    z-index:40;
-    animation: fall linear forwards;
-  }
-  @keyframes fall {
-    to { transform: translateY(110vh) rotate(720deg); opacity:0.95; }
-  }
+.pitch{background:linear-gradient(180deg,#0b6b2f,#0a6a2e);border-radius:12px;padding:20px;position:relative;overflow:hidden}
+.pitch-grid{width:100%;height:420px;position:relative}
+.player{position:absolute;width:120px;height:120px;background:linear-gradient(135deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(255,255,255,0.04);transition:transform .12s}
+.player:hover{transform:translateY(-6px)}
 
-  /* white end screen */
-  .end-screen{
-    position:absolute;
-    inset:0;
-    background:#fff;
-    color:#111;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    gap:20px;
-    z-index:25;
-    border-radius:18px;
-  }
-  .end-screen h2{font-size:28px;margin:0;}
-  .menu-btn{
-    background: linear-gradient(180deg,#111 0%, #333 100%);
-    color:#fff;
-    border-radius:12px;
-    padding:12px 20px;
-    border:none;
-    font-weight:700;
-    cursor:pointer;
-    box-shadow:0 8px 24px rgba(0,0,0,0.3);
-  }
+.avatar{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;background:linear-gradient(135deg,#071229,#0f1724);color:white;border:3px solid rgba(255,255,255,0.06)}
+.pname{margin-top:8px;font-size:13px}
+.pos{font-size:12px;color:var(--muted)}
 
-  /* little sparkle */
-  .sparkle{
-    position:absolute; width:6px; height:6px; border-radius:50%; opacity:0.9; z-index:35;
-    box-shadow:0 0 14px rgba(255,255,255,0.85);
-  }
+/* positions (absolute) */
+.pos-GK{left:50%;transform:translateX(-50%);top:340px}
+.pos-DL{left:8%;top:250px}
+.pos-DC1{left:32%;top:220px}
+.pos-DC2{left:50%;top:220px;transform:translateX(-50%)}
+.pos-DC3{left:68%;top:220px}
+.pos-DR{right:8%;top:250px}
+.pos-MC1{left:20%;top:130px}
+.pos-MC2{left:44%;top:120px}
+.pos-MC3{left:68%;top:130px}
+.pos-FW1{left:30%;top:20px}
+.pos-FW2{left:50%;top:10px;transform:translateX(-50%)}
+.pos-FW3{left:70%;top:20px}
 
-  /* responsive */
-  @media (max-width:520px){
-    .big-text{font-size:34px;padding:12px 18px;}
-    .container{padding:20px;}
-    h1{font-size:20px}
-    button.choice{font-size:18px;padding:12px 18px}
-  }
-</style>
+/* modal */
+.modal-back{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:flex;align-items:center;justify-content:center;z-index:9998}
+.modal{background:linear-gradient(180deg,#071229,#0b1220);padding:20px;border-radius:12px;width:360px}
+.modal h3{margin-top:0}
+.form-row{display:flex;gap:8px}
+input,select{padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;width:100%}
+.small{font-size:13px;color:var(--muted)}
+
+footer{margin-top:14px;color:var(--muted);font-size:13px;text-align:center}
+
+@media (max-width:900px){
+  .quiz{grid-template-columns:1fr}
+  .side{order:2}
+  .pitch-grid{height:360px}
+  .player{width:100px;height:100px}
+}
+
+  </style>
 </head>
 <body>
-  <div class="container" id="app" role="main" aria-live="polite">
-    <div class="question-card" id="questionCard">
-      <h1>Şaplak City selçuğa koyacak mı? <span style="font-size:20px;">🏙️🤔</span></h1>
-      <div class="btn-row" aria-hidden="false">
-        <button class="choice" onclick="onChoose('koyacak')">koyacak</button>
-        <button class="choice secondary" onclick="onChoose('ağır koyacak')">ağır koyacak</button>
+  <div class="app">
+    <header>
+      <div class="logo">SC</div>
+      <div>
+        <h1>Şaplak City — Mini Site</h1>
+        <p class="lead">Futbol temalı, interaktif, tek dosyada hazır. Şıklara bas, kutlama gör, ana menüye dön.</p>
+      </div>
+    </header><div class="card quiz" id="view-quiz">
+  <div class="question">
+    <h2 class="q-title">Soru</h2>
+    <p class="q-text">Şaplak City selçuğa koyacak mı?</p>
+    <div class="choices">
+      <div class="choice" data-answer="dogru"> <span class="dot"></span> Koyacak</div>
+      <div class="choice" data-answer="dogru"> <span class="dot"></span> Ağır koyacak</div>
+      <div class="choice" data-answer="yanlis"> <span class="dot"></span> Koymaz bence</div>
+    </div>
+    <div id="result" class="result" aria-live="polite"></div>
+  </div>
+  <div class="side">
+    <h3>Kısa Bilgi</h3>
+    <p>Bu küçük demo, cevaplara tepki verip seni ana menüye yollar. Ana menüde takım listesini görebilir, oyuncu ekleyip düzenleyebilirsin.</p>
+    <p class="small">Hazırlayan: Senin dostun — Şaplak City</p>
+  </div>
+</div>
+
+<!-- Main menu / pitch (gizli başta) -->
+<div class="main-menu" id="view-menu" style="display:none">
+  <div class="card">
+    <div class="controls">
+      <button class="btn" id="btn-new-quiz">Yeni Soru</button>
+      <button class="btn secondary" id="btn-add-player">Oyuncu Ekle</button>
+      <button class="btn secondary" id="btn-reset">Sıfırla</button>
+    </div>
+
+    <div class="pitch">
+      <div class="pitch-grid" id="pitch">
+        <!-- Players will be injected here -->
       </div>
     </div>
-    <!-- celebrate placeholder -->
+
+    <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
+      <div style="flex:1">
+        <h3 style="margin:6px 0 8px">Takım Listesi</h3>
+        <div id="roster" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+      <div style="width:260px">
+        <h3 style="margin:6px 0 8px">Takım istatistiği</h3>
+        <p class="small">Oyuncu sayısı: <span id="stat-count">0</span></p>
+        <p class="small">Formation: 4-3-3 (varsayılan)</p>
+      </div>
+    </div>
   </div>
+</div>
 
-<script>
-  const app = document.getElementById('app');
+<footer>İstersen oyuncuları ekle, sil veya kaptan ata. Tek dosya, kolay düzenleme.</footer>
 
-  function clearConfetti(){
-    document.querySelectorAll('.confetti, .sparkle').forEach(n => n.remove());
-  }
+  </div>  <!-- Modal template -->  <template id="modal-tpl">
+    <div class="modal-back">
+      <div class="modal">
+        <h3 id="modal-name">Oyuncu</h3>
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+          <div class="avatar" id="modal-avatar"></div>
+          <div>
+            <div class="small">Pozisyon: <strong id="modal-pos"></strong></div>
+            <div class="small">Numara: <strong id="modal-num"></strong></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn" id="btn-make-captain">Kaptan Yap</button>
+          <button class="btn secondary" id="btn-remove-player">Oyuncuyu Sil</button>
+          <button class="btn secondary" id="btn-close-modal">Kapat</button>
+        </div>
+      </div>
+    </div>
+  </template>  <script>
+    /* --- Veri: başlangıç oyuncuları (kullanıcının verdiği isimler dahil) --- */
+    let players = [
+      {name:'Emir Faruk', pos:'FW', num:9, id:1},
+      {name:'Kenan Rüzgar', pos:'MF', num:8, id:2},
+      {name:'Yusuf Çağan', pos:'DF', num:5, id:3},
+      {name:'Rüzgar Can', pos:'DF', num:4, id:4},
+      {name:'Mustafa', pos:'GK', num:1, id:5},
+      {name:'Ali Eren', pos:'FW', num:11, id:6},
+      // boşlukları doldurmak için örnek oyuncular
+      {name:'Cem Ak', pos:'DF', num:2, id:7},
+      {name:'Caner Y', pos:'MF', num:6, id:8},
+      {name:'Burak T', pos:'MF', num:7, id:9},
+      {name:'Mert K', pos:'DF', num:3, id:10},
+      {name:'Ozan D', pos:'FW', num:10, id:11}
+    ];
 
-  function random(min,max){ return Math.random()*(max-min)+min; }
+    const pitch = document.getElementById('pitch');
+    const roster = document.getElementById('roster');
+    const statCount = document.getElementById('stat-count');
 
-  function rainConfetti(count = 40){
-    for(let i=0;i<count;i++){
-      const el = document.createElement('div');
-      el.className = 'confetti';
-      const emojis = ['🎉','🎊','✨','💥','🥳','🎈','🍾','⭐'];
-      el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-      const startX = random(0,100);
-      const size = random(14,36);
-      el.style.left = startX + 'vw';
-      el.style.top = '-6vh';
-      el.style.fontSize = size + 'px';
-      el.style.animationDuration = (random(2.6,5.4)) + 's';
-      el.style.transform = 'rotate(' + random(0,360) + 'deg)';
-      el.style.opacity = 1;
-      el.style.zIndex = 1000;
-      app.appendChild(el);
+    // position -> class mapping (11 oyuncu için)
+    const positions = ['pos-GK','pos-DC1','pos-DC2','pos-DC3','pos-DL','pos-DR','pos-MC1','pos-MC2','pos-MC3','pos-FW1','pos-FW2'];
+
+    function initials(name){
+      return name.split(' ').map(s=>s[0]||'').slice(0,2).join('').toUpperCase();
     }
 
-    // sparkles
-    for(let j=0;j<12;j++){
-      const sp = document.createElement('div');
-      sp.className = 'sparkle';
-      sp.style.left = random(10,90) + 'vw';
-      sp.style.top = random(10,60) + 'vh';
-      sp.style.width = sp.style.height = random(4,10) + 'px';
-      sp.style.background = 'radial-gradient(circle, #fff, rgba(255,255,255,0.1))';
-      sp.style.opacity = 0.9;
-      sp.style.zIndex = 1001;
-      app.appendChild(sp);
-      (function(el){ setTimeout(()=>el.remove(), 2400 + random(0,1200)); })(sp);
+    function renderPitch(){
+      pitch.innerHTML = '';
+      // ensure we have at most 11 players on pitch shown; map first 11
+      const show = players.slice(0,11);
+      show.forEach((p,i)=>{
+        const el = document.createElement('div');
+        el.className = 'player '+positions[i%positions.length];
+        el.innerHTML = `<div class="avatar" title="${p.name}">${initials(p.name)}</div><div class="pname">${p.name.split(' ')[0]}</div><div class="pos">${p.pos} • #${p.num}</div>`;
+        el.dataset.id = p.id;
+        el.addEventListener('click', ()=>openModal(p.id));
+        pitch.appendChild(el);
+      });
+      renderRoster();
     }
-  }
 
-  function showCelebrate(selected){
-    // create overlay
-    clearConfetti();
-    const overlay = document.createElement('div');
-    overlay.className = 'celebrate';
-    overlay.id = 'celebrateOverlay';
-
-    const big = document.createElement('div');
-    big.className = 'big-text';
-    big.textContent = 'DOĞRU CEVAP ✅';
-
-    const strip = document.createElement('div');
-    strip.className = 'emoji-strip';
-    // long emoji line
-    strip.textContent = '🎉 🎊 ✨ 🎈 🥳 🎆 🍾 🎇 ⭐ 💥 ✨ 🎉 🎊';
-
-    overlay.appendChild(big);
-    overlay.appendChild(strip);
-    app.appendChild(overlay);
-
-    // start confetti
-    rainConfetti(60);
-
-    // after ~5s transition to white end screen
-    setTimeout(()=> {
-      overlay.remove();
-      clearConfetti();
-      showEndScreen();
-    }, 5200);
-  }
-
-  function showEndScreen(){
-    // white full-screen card
-    const end = document.createElement('div');
-    end.className = 'end-screen';
-    end.id = 'endScreen';
-    const title = document.createElement('h2');
-    title.textContent = ' ';
-    // create fancy "Ana menüye dön" button
-    const btn = document.createElement('button');
-    btn.className = 'menu-btn';
-    btn.textContent = 'Ana menüye dön';
-    btn.onclick = () => {
-      // cleanup and show question again
-      end.remove();
-      resetToQuestion();
-    };
-
-    // Add small decorative heading that fades in
-    const hint = document.createElement('p');
-    hint.style.margin = '0';
-    hint.style.opacity = '0.9';
-    hint.textContent = 'Biraz sonra tekrar deneyebilirsin 🎯';
-    end.appendChild(title);
-    end.appendChild(btn);
-    end.appendChild(hint);
-    app.appendChild(end);
-
-    // make the white screen minimal but centered
-    // optional auto-focus
-    btn.focus();
-  }
-
-  function resetToQuestion(){
-    // restore initial markup if needed
-    clearConfetti();
-    const existing = document.getElementById('questionCard');
-    if(!existing){
-      // rebuild the question card
-      const qcard = document.createElement('div');
-      qcard.className = 'question-card';
-      qcard.id = 'questionCard';
-      qcard.innerHTML = '<h1>Şaplak City selçuğa koyacak mı? <span style="font-size:20px;">🏙️🤔</span></h1>' +
-                        '<div class="btn-row" aria-hidden="false">' +
-                        '<button class="choice" onclick="onChoose(\\'koyacak\\')">koyacak</button>' +
-                        '<button class="choice secondary" onclick="onChoose(\\'ağır koyacak\\')">ağır koyacak</button>' +
-                        '</div>';
-      app.appendChild(qcard);
-    } else {
-      // nothing to do, buttons are still there
+    function renderRoster(){
+      roster.innerHTML = '';
+      players.forEach(p=>{
+        const r = document.createElement('div');
+        r.style.display='flex';r.style.alignItems='center';r.style.justifyContent='space-between';r.style.gap='8px';
+        r.innerHTML = `<div style="display:flex;align-items:center;gap:8px"><div style="width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,#0f1724,#071229);display:flex;align-items:center;justify-content:center;font-weight:700">${initials(p.name)}</div><div><div style="font-weight:700">${p.name}</div><div class="small">${p.pos} • #${p.num}</div></div></div><div style="display:flex;gap:8px"><button class="btn" data-id="${p.id}">Kaptan Yap</button><button class="btn secondary" data-remove="${p.id}">Sil</button></div>`;
+        roster.appendChild(r);
+      });
+      // attach handlers
+      roster.querySelectorAll('button[data-id]').forEach(b=>b.addEventListener('click', ()=>makeCaptain(Number(b.dataset.id))));
+      roster.querySelectorAll('button[data-remove]').forEach(b=>b.addEventListener('click', ()=>removePlayer(Number(b.dataset.remove))));
+      statCount.textContent = players.length;
     }
-  }
 
-  // When the user chooses an option:
-  function onChoose(option){
-    // visually disable further clicks
-    document.querySelectorAll('button.choice').forEach(b => b.disabled = true);
-    // show celebration overlay
-    showCelebrate(option);
-  }
+    function makeCaptain(id){
+      const p = players.find(x=>x.id===id);
+      if(!p) return;
+      // move to first and mark with (K)
+      players = players.map(x=>x).filter(x=>x.id!==id);
+      players.unshift(p);
+      alert(p.name + ' artık kaptan!');
+      renderPitch();
+    }
 
-  // initialize — ensure question card exists (if user refreshes)
-  (function init(){
-    // nothing special needed; container already has question card
-  })();
-</script>
-</body>
+    function removePlayer(id){
+      if(!confirm('Oyuncuyu silmek istiyor musun?')) return;
+      players = players.filter(x=>x.id!==id);
+      renderPitch();
+    }
+
+    function openModal(id){
+      const p = players.find(x=>x.id===id);
+      if(!p) return;
+      const tpl = document.getElementById('modal-tpl');
+      const node = tpl.content.cloneNode(true);
+      node.querySelector('#modal-name').textContent = p.name;
+      node.querySelector('#modal-avatar').textContent = initials(p.name);
+      node.querySelector('#modal-pos').textContent = p.pos;
+      node.querySelector('#modal-num').textContent = p.num;
+      const back = node.querySelector('.modal-back');
+      document.body.appendChild(back);
+      back.querySelector('#btn-close-modal').addEventListener('click', ()=>back.remove());
+      back.querySelector('#btn-remove-player').addEventListener('click', ()=>{back.remove(); removePlayer(id)});
+      back.querySelector('#btn-make-captain').addEventListener('click', ()=>{back.remove(); makeCaptain(id)});
+    }
+
+    // Add player form (simple prompt-based UX)
+    document.getElementById('btn-add-player').addEventListener('click', ()=>{
+      const name = prompt('Yeni oyuncu adı (ör: Ali Veli)');
+      if(!name) return;
+      const pos = prompt('Pozisyon (GK, DF, MF, FW) — boş bırakırsan MF olacak','MF') || 'MF';
+      const num = Number(prompt('Numara (ör: 14)','13')) || (players.length+1);
+      const id = Date.now();
+      players.push({name,pos,num,id});
+      renderPitch();
+    });
+
+    document.getElementById('btn-reset').addEventListener('click', ()=>{
+      if(!confirm('Takımı başlangıç haline döndürmek istiyor musun?')) return;
+      // restore default
+      players = [
+        {name:'Emir Faruk', pos:'FW', num:9, id:1},
+        {name:'Kenan Rüzgar', pos:'MF', num:8, id:2},
+        {name:'Yusuf Çağan', pos:'DF', num:5, id:3},
+        {name:'Rüzgar Can', pos:'DF', num:4, id:4},
+        {name:'Mustafa', pos:'GK', num:1, id:5},
+        {name:'Ali Eren', pos:'FW', num:11, id:6},
+        {name:'Cem Ak', pos:'DF', num:2, id:7},
+        {name:'Caner Y', pos:'MF', num:6, id:8},
+        {name:'Burak T', pos:'MF', num:7, id:9},
+        {name:'Mert K', pos:'DF', num:3, id:10},
+        {name:'Ozan D', pos:'FW', num:10, id:11}
+      ];
+      renderPitch();
+    });
+
+    document.getElementById('btn-new-quiz').addEventListener('click', ()=>{
+      // go back to quiz view
+      document.getElementById('view-menu').style.display='none';
+      document.getElementById('view-quiz').style.display='grid';
+      document.getElementById('result').textContent='';
+    });
+
+    // Quiz logic
+    document.querySelectorAll('.choice').forEach(c=>c.addEventListener('click', ()=>{
+      const ans = c.dataset.answer;
+      if(ans==='dogru') showCorrect(); else showWrong();
+    }));
+
+    function showCorrect(){
+      const r = document.getElementById('result');
+      r.textContent = 'DOĞRU CEVAP 🎉🎉🎉';
+      // confetti
+      for(let i=0;i<40;i++){
+        const e = document.createElement('div');
+        e.className='emoji';
+        e.textContent = ['🎉','🏆','⚽','🎊'][Math.floor(Math.random()*4)];
+        e.style.left = Math.random()*100 + 'vw';
+        e.style.top = (-10 - Math.random()*10) + 'vh';
+        e.style.fontSize = (14+Math.random()*28)+'px';
+        e.style.transform = `rotate(${Math.random()*360}deg)`;
+        document.body.appendChild(e);
+        setTimeout(()=>e.remove(), 2800);
+      }
+      // 3 saniye sonra ana menüye dön
+      setTimeout(()=>{
+        document.getElementById('view-quiz').style.display='none';
+        document.getElementById('view-menu').style.display='block';
+        renderPitch();
+      }, 3000);
+    }
+
+    function showWrong(){
+      const r = document.getElementById('result');
+      r.textContent = 'Hayır ama sorun değil, tekrar dene.';
+    }
+
+    // initial
+    renderPitch();
+
+    // Accessibility: keyboard support for choices
+    document.querySelectorAll('.choice').forEach((c,i)=>{c.tabIndex=0;c.addEventListener('keydown', e=>{if(e.key==='Enter') c.click()})});
+
+    // Small hint: set focus to first choice
+    window.addEventListener('load', ()=>{const first = document.querySelector('.choice'); if(first) first.focus()});
+  </script></body>
 </html>
