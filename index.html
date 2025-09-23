@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Şaplak City</title>
+<style>
+  :root{
+    --bg1: linear-gradient(135deg,#0f172a,#001219);
+    --accent: #ffde59;
+    --card: rgba(255,255,255,0.06);
+    --glass: rgba(255,255,255,0.06);
+  }
+
+  html,body{height:100%;margin:0;font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial; -webkit-font-smoothing:antialiased;}
+  body{
+    background: var(--bg1);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+  .container{
+    width:min(920px,94%);
+    background: radial-gradient(circle at 10% 10%, rgba(255,255,255,0.03), transparent 20%),
+                linear-gradient(180deg, rgba(255,255,255,0.02), transparent 40%);
+    border-radius:18px;
+    padding:36px;
+    box-shadow: 0 10px 40px rgba(2,6,23,0.6);
+    text-align:center;
+    position:relative;
+    min-height:380px;
+  }
+
+  h1{
+    font-size:32px;
+    margin:0 0 22px 0;
+    letter-spacing:0.6px;
+    text-shadow: 0 6px 30px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.02) inset;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+  }
+
+  .question-card{
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border-radius:14px;
+    padding:24px;
+    margin-bottom:20px;
+    box-shadow: 0 6px 18px rgba(2,6,23,0.5);
+  }
+
+  .btn-row{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-top:8px;}
+  button.choice{
+    background: linear-gradient(180deg,#ff7a00,#ff4d00);
+    border: none;
+    padding:14px 28px;
+    font-size:20px;
+    border-radius:12px;
+    cursor:pointer;
+    color:#111;
+    font-weight:700;
+    transform:translateY(0);
+    transition:transform .14s ease, box-shadow .14s ease;
+    box-shadow: 0 12px 30px rgba(255,77,0,0.18), 0 2px 8px rgba(0,0,0,0.35);
+  }
+  button.choice:active{ transform:translateY(2px); }
+  button.choice.secondary{
+    background: linear-gradient(180deg,#6a5cff,#3b2df7);
+    color: #fff;
+    box-shadow: 0 12px 30px rgba(59,45,247,0.16), 0 2px 8px rgba(0,0,0,0.35);
+  }
+
+  /* Celebration screen */
+  .celebrate{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:18px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.25), rgba(255,255,255,0.02));
+    backdrop-filter: blur(6px);
+    border-radius:18px;
+    z-index:30;
+  }
+  .big-text{
+    font-size:56px;
+    font-weight:900;
+    letter-spacing:1px;
+    color: #0b2a1a;
+    text-shadow: 0 6px 30px rgba(0,0,0,0.45);
+    padding:18px 30px;
+    border-radius:14px;
+    background: linear-gradient(90deg, #eaffd0, #fff2aa);
+    box-shadow: 0 14px 50px rgba(0,0,0,0.45);
+  }
+  .emoji-strip{font-size:30px;opacity:0.98;transform:translateY(0);}
+
+  /* confetti pieces */
+  .confetti {
+    position:absolute;
+    width:14px;height:14px;
+    font-size:14px;
+    pointer-events:none;
+    z-index:40;
+    animation: fall linear forwards;
+  }
+  @keyframes fall {
+    to { transform: translateY(110vh) rotate(720deg); opacity:0.95; }
+  }
+
+  /* white end screen */
+  .end-screen{
+    position:absolute;
+    inset:0;
+    background:#fff;
+    color:#111;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:20px;
+    z-index:25;
+    border-radius:18px;
+  }
+  .end-screen h2{font-size:28px;margin:0;}
+  .menu-btn{
+    background: linear-gradient(180deg,#111 0%, #333 100%);
+    color:#fff;
+    border-radius:12px;
+    padding:12px 20px;
+    border:none;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 8px 24px rgba(0,0,0,0.3);
+  }
+
+  /* little sparkle */
+  .sparkle{
+    position:absolute; width:6px; height:6px; border-radius:50%; opacity:0.9; z-index:35;
+    box-shadow:0 0 14px rgba(255,255,255,0.85);
+  }
+
+  /* responsive */
+  @media (max-width:520px){
+    .big-text{font-size:34px;padding:12px 18px;}
+    .container{padding:20px;}
+    h1{font-size:20px}
+    button.choice{font-size:18px;padding:12px 18px}
+  }
+</style>
+</head>
+<body>
+  <div class="container" id="app" role="main" aria-live="polite">
+    <div class="question-card" id="questionCard">
+      <h1>Şaplak City selçuğa koyacak mı? <span style="font-size:20px;">🏙️🤔</span></h1>
+      <div class="btn-row" aria-hidden="false">
+        <button class="choice" onclick="onChoose('koyacak')">koyacak</button>
+        <button class="choice secondary" onclick="onChoose('ağır koyacak')">ağır koyacak</button>
+      </div>
+    </div>
+    <!-- celebrate placeholder -->
+  </div>
+
+<script>
+  const app = document.getElementById('app');
+
+  function clearConfetti(){
+    document.querySelectorAll('.confetti, .sparkle').forEach(n => n.remove());
+  }
+
+  function random(min,max){ return Math.random()*(max-min)+min; }
+
+  function rainConfetti(count = 40){
+    for(let i=0;i<count;i++){
+      const el = document.createElement('div');
+      el.className = 'confetti';
+      const emojis = ['🎉','🎊','✨','💥','🥳','🎈','🍾','⭐'];
+      el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      const startX = random(0,100);
+      const size = random(14,36);
+      el.style.left = startX + 'vw';
+      el.style.top = '-6vh';
+      el.style.fontSize = size + 'px';
+      el.style.animationDuration = (random(2.6,5.4)) + 's';
+      el.style.transform = 'rotate(' + random(0,360) + 'deg)';
+      el.style.opacity = 1;
+      el.style.zIndex = 1000;
+      app.appendChild(el);
+    }
+
+    // sparkles
+    for(let j=0;j<12;j++){
+      const sp = document.createElement('div');
+      sp.className = 'sparkle';
+      sp.style.left = random(10,90) + 'vw';
+      sp.style.top = random(10,60) + 'vh';
+      sp.style.width = sp.style.height = random(4,10) + 'px';
+      sp.style.background = 'radial-gradient(circle, #fff, rgba(255,255,255,0.1))';
+      sp.style.opacity = 0.9;
+      sp.style.zIndex = 1001;
+      app.appendChild(sp);
+      (function(el){ setTimeout(()=>el.remove(), 2400 + random(0,1200)); })(sp);
+    }
+  }
+
+  function showCelebrate(selected){
+    // create overlay
+    clearConfetti();
+    const overlay = document.createElement('div');
+    overlay.className = 'celebrate';
+    overlay.id = 'celebrateOverlay';
+
+    const big = document.createElement('div');
+    big.className = 'big-text';
+    big.textContent = 'DOĞRU CEVAP ✅';
+
+    const strip = document.createElement('div');
+    strip.className = 'emoji-strip';
+    // long emoji line
+    strip.textContent = '🎉 🎊 ✨ 🎈 🥳 🎆 🍾 🎇 ⭐ 💥 ✨ 🎉 🎊';
+
+    overlay.appendChild(big);
+    overlay.appendChild(strip);
+    app.appendChild(overlay);
+
+    // start confetti
+    rainConfetti(60);
+
+    // after ~5s transition to white end screen
+    setTimeout(()=> {
+      overlay.remove();
+      clearConfetti();
+      showEndScreen();
+    }, 5200);
+  }
+
+  function showEndScreen(){
+    // white full-screen card
+    const end = document.createElement('div');
+    end.className = 'end-screen';
+    end.id = 'endScreen';
+    const title = document.createElement('h2');
+    title.textContent = ' ';
+    // create fancy "Ana menüye dön" button
+    const btn = document.createElement('button');
+    btn.className = 'menu-btn';
+    btn.textContent = 'Ana menüye dön';
+    btn.onclick = () => {
+      // cleanup and show question again
+      end.remove();
+      resetToQuestion();
+    };
+
+    // Add small decorative heading that fades in
+    const hint = document.createElement('p');
+    hint.style.margin = '0';
+    hint.style.opacity = '0.9';
+    hint.textContent = 'Biraz sonra tekrar deneyebilirsin 🎯';
+    end.appendChild(title);
+    end.appendChild(btn);
+    end.appendChild(hint);
+    app.appendChild(end);
+
+    // make the white screen minimal but centered
+    // optional auto-focus
+    btn.focus();
+  }
+
+  function resetToQuestion(){
+    // restore initial markup if needed
+    clearConfetti();
+    const existing = document.getElementById('questionCard');
+    if(!existing){
+      // rebuild the question card
+      const qcard = document.createElement('div');
+      qcard.className = 'question-card';
+      qcard.id = 'questionCard';
+      qcard.innerHTML = '<h1>Şaplak City selçuğa koyacak mı? <span style="font-size:20px;">🏙️🤔</span></h1>' +
+                        '<div class="btn-row" aria-hidden="false">' +
+                        '<button class="choice" onclick="onChoose(\\'koyacak\\')">koyacak</button>' +
+                        '<button class="choice secondary" onclick="onChoose(\\'ağır koyacak\\')">ağır koyacak</button>' +
+                        '</div>';
+      app.appendChild(qcard);
+    } else {
+      // nothing to do, buttons are still there
+    }
+  }
+
+  // When the user chooses an option:
+  function onChoose(option){
+    // visually disable further clicks
+    document.querySelectorAll('button.choice').forEach(b => b.disabled = true);
+    // show celebration overlay
+    showCelebrate(option);
+  }
+
+  // initialize — ensure question card exists (if user refreshes)
+  (function init(){
+    // nothing special needed; container already has question card
+  })();
+</script>
+</body>
+</html>
