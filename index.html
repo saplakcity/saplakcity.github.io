@@ -10,12 +10,12 @@
   --glass: rgba(255,255,255,0.04);
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:#000;color:#e6eef6;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+body{margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#041022 0%, #071229 60%);color:#e6eef6;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
 .app{width:100%;max-width:1100px}header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
 .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,#ff8a5b,#ff6b35);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:20px;box-shadow:0 6px 20px rgba(255,107,53,0.18)}
 h1{font-size:20px;margin:0}
 p.lead{margin:0;color:var(--muted);font-size:13px}
-.card{background:#111;border-radius:14px;padding:18px;box-shadow:0 10px 30px rgba(2,6,23,0.6);}
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:18px;box-shadow:0 10px 30px rgba(2,6,23,0.6);}
 
 /* Quiz */
 .quiz{display:grid;grid-template-columns:1fr 360px;gap:20px}
@@ -23,12 +23,12 @@ p.lead{margin:0;color:var(--muted);font-size:13px}
 .q-title{font-size:18px;margin:0 0 8px}
 .q-text{color:var(--muted);margin-bottom:18px}
 .choices{display:flex;flex-direction:column;gap:12px}
-.choice{background:#111;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);cursor:pointer;display:flex;align-items:center;gap:12px;transition:transform .12s ease, box-shadow .12s}
+.choice{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;display:flex;align-items:center;gap:12px;transition:transform .12s ease, box-shadow .12s}
 .choice:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(2,6,23,0.6)}
 .choice .dot{width:12px;height:12px;border-radius:50%;background:var(--accent);flex:0 0 12px}
 
 /* Right column */
-.side{padding:18px;border-radius:12px;background:#111}
+.side{padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))}
 .side h3{margin:0 0 8px}
 .side p{color:var(--muted);font-size:13px}
 
@@ -43,14 +43,14 @@ p.lead{margin:0;color:var(--muted);font-size:13px}
 .main-menu{margin-top:20px}
 .controls{display:flex;gap:10px;align-items:center;margin-bottom:12px}
 .btn{background:var(--accent);color:white;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
-.btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.2)}
+.btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06)}
 
-.pitch{background:var(--pitch);border-radius:12px;padding:20px;position:relative;overflow:hidden}
+.pitch{background:linear-gradient(180deg,#0b6b2f,#0a6a2e);border-radius:12px;padding:20px;position:relative;overflow:hidden}
 .pitch-grid{width:100%;height:420px;position:relative}
-.player{position:absolute;width:120px;height:120px;background:#222;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(255,255,255,0.1);transition:transform .12s}
+.player{position:absolute;width:120px;height:120px;background:linear-gradient(135deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:1px solid rgba(255,255,255,0.04);transition:transform .12s}
 .player:hover{transform:translateY(-6px)}
 
-.avatar{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;background:#000;color:white;border:3px solid rgba(255,255,255,0.1)}
+.avatar{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;background:linear-gradient(135deg,#071229,#0f1724);color:white;border:3px solid rgba(255,255,255,0.06)}
 .pname{margin-top:8px;font-size:13px}
 .pos{font-size:12px;color:var(--muted)}
 
@@ -63,10 +63,11 @@ p.lead{margin:0;color:var(--muted);font-size:13px}
 .pos-FW2{left:60%;top:40px}
 
 /* modal */
-.modal-back{position:fixed;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:9998}
-.modal{background:#111;padding:20px;border-radius:12px;width:360px}
+.modal-back{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:flex;align-items:center;justify-content:center;z-index:9998}
+.modal{background:linear-gradient(180deg,#071229,#0b1220);padding:20px;border-radius:12px;width:360px}
 .modal h3{margin-top:0}
-input,select{padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:inherit;width:100%}
+.form-row{display:flex;gap:8px}
+input,select{padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit;width:100%}
 .small{font-size:13px;color:var(--muted)}
 
 footer{margin-top:14px;color:var(--muted);font-size:13px;text-align:center}
@@ -128,19 +129,18 @@ footer{margin-top:14px;color:var(--muted);font-size:13px;text-align:center}
         <p class="small">Formation: 2-1-2 (özel)</p>
       </div>
     </div>
-
-    <!-- BURAYA SKOR EKLENDİ -->
-    <div style="margin-top:20px;text-align:center;font-size:18px;font-weight:700;color:#ffcc00">
-      Son Maç Skoru: Şaplak City 7 - 3 Selçukspor
+    <!-- SON MAÇ SKORU BURADA -->
+    <div style="margin-top:18px;padding:12px;border-radius:8px;background:var(--card);text-align:center;font-weight:700">
+      Son Maç Skoru: <span style="color:#ff6b35">7 - 3</span>
     </div>
   </div>
 </div>
 
 <footer>İstersen oyuncuları ekle, sil veya kaptan ata. Tek dosya, kolay düzenleme.</footer>
 
-<!-- JS kısmı aynı -->
+<!-- script kısmı aynı kaldı -->
 <script>
-// mevcut kodun (oyuncular, quiz, render vs.) aynen duruyor
+/* ... senin var olan JS kodların, hiçbir değişiklik yok ... */
 </script>
 </body>
 </html>
